@@ -1,20 +1,45 @@
 package Domein;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Reiziger {
+    @Id
+    @Column(name = "reiziger_id")
     int id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private String geboortedatum;
-    private Adres adres;
-    private OVChipkaart ovChipkaart;
 
-    public void setOvChipkaart(OVChipkaart ovChipkaart) {
-        this.ovChipkaart = ovChipkaart;
+    @OneToOne
+    @JoinColumn(name = "reiziger_id")
+    private Adres adres;
+    @OneToMany(mappedBy = "reiziger")
+    private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
+
+
+
+    public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, String geboortedatum) {
+        this.id = id;
+        this.voorletters = voorletters;
+        this.tussenvoegsel = tussenvoegsel;
+        this.achternaam = achternaam;
+        this.geboortedatum = geboortedatum;
     }
 
-    public OVChipkaart getOvChipkaart() {
-        return ovChipkaart;
+    public void setOVChipkaarten(OVChipkaart ovChipkaart) {
+        this.OVChipkaarten.add(ovChipkaart);
+    }
+
+    public void removeOVChipkaart(OVChipkaart ovChipkaart){
+        this.OVChipkaarten.remove(ovChipkaart);
+    }
+
+    public List<OVChipkaart> getOvChipkaarten() {
+        return OVChipkaarten;
     }
 
     public void setAdres(Adres adres) {
@@ -27,14 +52,6 @@ public class Reiziger {
 
     public Reiziger() {
 
-    }
-
-    public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, String geboortedatum) {
-        this.id = id;
-        this.voorletters = voorletters;
-        this.tussenvoegsel = tussenvoegsel;
-        this.achternaam = achternaam;
-        this.geboortedatum = geboortedatum;
     }
 
     public int getId() {

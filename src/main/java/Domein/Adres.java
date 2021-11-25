@@ -1,18 +1,20 @@
 package Domein;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "adres")
 public class Adres {
-
+    @Id
+    @Column(name = "adres_id")
     private int id;
     private String postcode;
     private String huisnummer;
     private String straat;
     private String woonplaats;
-    private int reiziger_id;
+    @OneToOne
+    @JoinColumn(name = "reiziger_id")
+    private Reiziger reiziger;
 
 
     public Adres() {
@@ -56,7 +58,7 @@ public class Adres {
     }
 
     public int getReiziger_id() {
-        return reiziger_id;
+        return reiziger.id;
     }
 
     public void setHuisnummer(String huisnummer) {
@@ -72,11 +74,16 @@ public class Adres {
     }
 
     public void setReiziger_id(int reiziger_id) {
-        this.reiziger_id = reiziger_id;
+        this.reiziger.id = reiziger_id;
     }
 
     @Override
     public String toString() {
-        return "ID:" + id + " POSTCODE:" + postcode + " HUISNUMMER:" + huisnummer + " STRAAT:" + straat + "WOONPLAATS:" + woonplaats + "\n";
+
+        if (reiziger != null)
+        return "ID:" + id + " POSTCODE:" + postcode + " HUISNUMMER:" + huisnummer + " STRAAT:" + straat + "WOONPLAATS:" + woonplaats + "\n" + reiziger ;
+
+        else
+            return "ID:" + id + " POSTCODE:" + postcode + " HUISNUMMER:" + huisnummer + " STRAAT:" + straat + "WOONPLAATS:" + woonplaats;
     }
 }

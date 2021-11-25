@@ -1,14 +1,21 @@
 package Domein;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
 public class Product {
+    @Id
+    @Column(name = "product_nummer")
     private int product_nummer;
     private String naam;
     private String beschrijving;
     private double prijs;
 
+    @ManyToMany
+    @JoinTable(name = "ov_chipkaart_product",
+                joinColumns = {@JoinColumn(name = "product_nummer")},
+                inverseJoinColumns = {@JoinColumn(name = "kaart_nummer")})
     private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
 
 

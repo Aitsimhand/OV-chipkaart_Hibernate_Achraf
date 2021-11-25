@@ -1,13 +1,26 @@
-package Domein;
+﻿package Domein;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table(name = "ov_chipkaart")
 public class OVChipkaart {
-    private int kaartNummer;
-    private String geldigTot;
+    @Id
+    private int kaart_nummer;
+    private Date geldig_tot;
     private int klasse;
-    private double saldo;
-    private int reizigerId;
+    private Double saldo;
+
+    @ManyToOne()
+    @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
-    Product product;
+    @ManyToMany(mappedBy = "OVChipkaarten")
+    private List<Product> products = new ArrayList<>();
+
+
 
     public Reiziger getReiziger() {
         return reiziger;
@@ -17,40 +30,40 @@ public class OVChipkaart {
         this.reiziger = reiziger;
     }
 
-    public OVChipkaart(int kaartNummer, String geldigTot, int klasse, double saldo, int reizigerId) {
-        this.kaartNummer = kaartNummer;
-        this.geldigTot = geldigTot;
+    public OVChipkaart(int kaart_nummer, Date geldig_tot, int klasse, Double saldo, Reiziger reiziger) {
+        this.kaart_nummer = kaart_nummer;
+        this.geldig_tot = geldig_tot;
         this.klasse = klasse;
         this.saldo = saldo;
-        this.reizigerId = reizigerId;
+        this.reiziger = reiziger;
     }
 
     public OVChipkaart() {
 
     }
 
-    public Product getProduct() {
-        return product;
+    public List<Product> getProducten() {
+        return products;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProducten(Product product) {
+        this.products.add(product);
     }
 
-    public int getKaartNummer() {
-        return kaartNummer;
+    public int getKaart_nummer() {
+        return kaart_nummer;
     }
 
-    public void setKaartNummer(int kaartNummer) {
-        this.kaartNummer = kaartNummer;
+    public void setKaart_nummer(int kaartNummer) {
+        this.kaart_nummer = kaartNummer;
     }
 
-    public String getGeldigTot() {
-        return geldigTot;
+    public Date getGeldig_tot() {
+        return geldig_tot;
     }
 
-    public void setGeldigTot(String geldigTot) {
-        this.geldigTot = geldigTot;
+    public void setGeldig_tot(Date geldigTot) {
+        this.geldig_tot = geldigTot;
     }
 
     public int getKlasse() {
@@ -61,30 +74,29 @@ public class OVChipkaart {
         this.klasse = klasse;
     }
 
-    public double getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
     public int getReizigerId() {
-        return reizigerId;
+        return reiziger.getId();
     }
 
-    public void setReizigerId(int reizigerId) {
-        this.reizigerId = reizigerId;
-    }
-
+//TODO!! Still have to make this code return values of other classes if needed. Look at the other
     @Override
     public String toString() {
+
+
         return "OVChipkaart{" +
-                "kaartNummer=" + kaartNummer +
-                ", geldigTot='" + geldigTot + '\'' +
+                "kaartNummer=" + kaart_nummer +
+                ", geldigTot='" + geldig_tot + '\'' +
                 ", klasse=" + klasse +
                 ", saldo=" + saldo +
-                ", reizigerId=" + reizigerId +
+                ", reizigerId=" + reiziger.getId() +
                 '}';
     }
 }
