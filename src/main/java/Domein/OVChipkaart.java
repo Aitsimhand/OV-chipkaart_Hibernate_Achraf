@@ -1,4 +1,4 @@
-﻿package Domein;
+package Domein;
 
 import javax.persistence.*;
 import java.util.ArrayList;
