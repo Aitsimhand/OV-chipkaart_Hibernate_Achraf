@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public class ReizigerDAOHibernate implements ReizigerDAO {
@@ -33,7 +34,7 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
     public boolean update(Reiziger reiziger) {
         try {
             session.update(reiziger);
-            System.out.println("Reiziger update successful.")
+            System.out.println("Reiziger update successful.");
             return true;
 
         }
@@ -62,18 +63,56 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public Reiziger findById(int id) {
+
+
         try {
-            Query query = session.createQuery(Reiziger.class, );
+
+            Query<Reiziger> query = session.createQuery("FROM Reiziger WHERE Reiziger.id =" +id);
+            Reiziger reiziger = query.getSingleResult();
+            System.out.println("Reiziger findbyId() was successful.");
+            return reiziger;
+
+
+        }
+
+        catch (HibernateException e){
+            e.printStackTrace();
+            System.out.println("Reiziger findbyId() was NOT successful.");
+            return null;
+
         }
     }
 
     @Override
     public List<Reiziger> findByGbdatum(String datum) {
-        return null;
+        try {
+            Query query = session.createQuery("FROM Reiziger WHERE geboortedatum =" + datum);
+            List<Reiziger> reizigers = query.list();
+            System.out.println("Reiziger findbyGbdatum() was successful.");
+            return reizigers;
+        }
+
+        catch (HibernateException e){
+            e.printStackTrace();
+            System.out.println("Reiziger findbyGbdatum() was NOT successful.");
+            return null;
+        }
     }
 
     @Override
     public List<Reiziger> findAll() {
-        return null;
+
+        try {
+            Query query = session.createQuery("FROM Reiziger ", Reiziger.class);
+            List<Reiziger> reizigers = query.list();
+            System.out.println("Reiziger findAll() was successful.");
+            return reizigers;
+        }
+
+        catch (HibernateException e){
+            e.printStackTrace();
+            System.out.println("Reiziger findAll() was NOT successful.");
+            return null;
+        }
     }
 }

@@ -33,6 +33,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.achraf</groupId>
+            <artifactId>OV-chipkaart_Hibernate_Achraf</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
