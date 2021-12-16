@@ -7,12 +7,14 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.awt.*;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ProductDAOHibernate implements ProductDAO {
-    Session session;
+    private final Session session;
+
+    public ProductDAOHibernate(Session session) {
+        this.session = session;
+    }
 
     @Override
     public boolean save(Product product) {

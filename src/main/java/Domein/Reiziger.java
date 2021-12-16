@@ -2,28 +2,31 @@ package Domein;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
-@Entity
+
+@Entity(name = "Reiziger")
+@Table(name = "reiziger")
+
 public class Reiziger {
     @Id
-    @Column(name = "reiziger_id")
-    int id;
+    @Column
+    int reiziger_id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
-    private String geboortedatum;
+    private Date geboortedatum;
 
-    @OneToOne
-    @JoinColumn(name = "reiziger_id")
+    @OneToOne(mappedBy = "reiziger")
     private Adres adres;
     @OneToMany(mappedBy = "reiziger")
-    private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
+    private List<OVChipkaart> OVChipkaarten;
 
 
 
-    public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, String geboortedatum) {
-        this.id = id;
+    public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {
+        this.reiziger_id = id;
         this.voorletters = voorletters;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
@@ -55,11 +58,11 @@ public class Reiziger {
     }
 
     public int getId() {
-        return id;
+        return reiziger_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.reiziger_id = id;
     }
 
     public String getVoorletters() {
@@ -86,12 +89,12 @@ public class Reiziger {
         this.achternaam = achternaam;
     }
 
-    public String getGeboortedatum() {
+    public Date getGeboortedatum() {
         return geboortedatum;
     }
 
     public void setGeboortedatum(String geboortedatum) {
-        this.geboortedatum = geboortedatum;
+        this.geboortedatum = Date.valueOf(geboortedatum);
     }
 
     @Override

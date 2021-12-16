@@ -9,8 +9,12 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class OVChipkaartHibernate implements OVChipkaartDAO {
-    Session session;
+public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
+    private final Session session;
+
+    public OVChipkaartDAOHibernate(Session session) {
+        this.session = session;
+    }
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) {

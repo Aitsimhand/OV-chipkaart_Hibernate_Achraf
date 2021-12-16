@@ -7,31 +7,30 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AdresDAOHibernate implements AdresDAO {
-    Session session;
+    private final Session session;
 
     public AdresDAOHibernate(Session session) {
         this.session = session;
     }
     @Override
     public boolean save(Adres adres){
-        try {
-            session.save(adres);
-            System.out.println("Adres has been saved successfully");
-            return true;
-        }
-        catch (HibernateException e){
-            e.printStackTrace();
-            return false;
-        }
+        session.beginTransaction();
+        session.saveOrUpdate(adres);
+        session.getTransaction().commit();
+        System.out.println("Adres has been saved successfully");
+        return true;
     }
 
     @Override
     public boolean delete(Adres adres){
         try {
+            session.beginTransaction();
             session.delete(adres);
+            session.getTransaction().commit();
             System.out.println("Adres has been deleted successfully");
             return true;
         }
@@ -44,7 +43,9 @@ public class AdresDAOHibernate implements AdresDAO {
     @Override
     public boolean update(Adres adres){
         try {
+            session.beginTransaction();
             session.update(adres);
+            session.getTransaction().commit();
             System.out.println("Adres has been updated successfully");
             return true;
         }

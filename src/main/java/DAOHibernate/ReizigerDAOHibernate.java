@@ -2,24 +2,26 @@ package DAOHibernate;
 
 import DAO.ReizigerDAO;
 import Domein.Reiziger;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.Date;
 import java.util.List;
 
 public class ReizigerDAOHibernate implements ReizigerDAO {
-    Session session;
-    public ReizigerDAOHibernate() {
+    private final Session session;
 
+    public ReizigerDAOHibernate(Session session) {
+    this.session = session;
     }
 
     @Override
     public boolean save(Reiziger reiziger) {
         try {
-            session.save(reiziger);
-            System.out.println("Reiziger save successful.");
+            session.beginTransaction();
+            session.saveOrUpdate(reiziger);
+            session.getTransaction().commit();
             return true;
         }
 
@@ -33,7 +35,9 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
     @Override
     public boolean update(Reiziger reiziger) {
         try {
+            session.beginTransaction();
             session.update(reiziger);
+            session.getTransaction().commit();
             System.out.println("Reiziger update successful.");
             return true;
 
@@ -49,7 +53,9 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
     @Override
     public boolean delete(Reiziger reiziger) {
         try {
+            session.beginTransaction();
             session.delete(reiziger);
+            session.getTransaction().commit();
             System.out.println("Reiziger delete successful.");
             return true;
         }
@@ -67,11 +73,7 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
         try {
 
-            Query<Reiziger> query = session.createQuery("FROM Reiziger WHERE Reiziger.id =" +id);
-            Reiziger reiziger = query.getSingleResult();
-            System.out.println("Reiziger findbyId() was successful.");
-            return reiziger;
-
+            return session.get(Reiziger.class, id);
 
         }
 
@@ -79,14 +81,15 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
             e.printStackTrace();
             System.out.println("Reiziger findbyId() was NOT successful.");
             return null;
-
         }
     }
 
     @Override
     public List<Reiziger> findByGbdatum(String datum) {
         try {
+            session.beginTransaction();
             Query query = session.createQuery("FROM Reiziger WHERE geboortedatum =" + datum);
+            session.getTransaction().commit();
             List<Reiziger> reizigers = query.list();
             System.out.println("Reiziger findbyGbdatum() was successful.");
             return reizigers;
@@ -101,18 +104,6 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public List<Reiziger> findAll() {
-
-        try {
-            Query query = session.createQuery("FROM Reiziger ", Reiziger.class);
-            List<Reiziger> reizigers = query.list();
-            System.out.println("Reiziger findAll() was successful.");
-            return reizigers;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reiziger findAll() was NOT successful.");
-            return null;
-        }
+        return session.createQuery("SELECT r FROM Reiziger r", Reiziger.class).getResultList();
     }
 }

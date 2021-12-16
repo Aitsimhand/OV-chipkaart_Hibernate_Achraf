@@ -4,7 +4,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="hibernate.cfg.xml" value="4e12b601-c8da-434c-95c9-3e8b0000381e" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />
@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="OV-chipkaart_Hibernate_Achraf" />
+          <factory-entry name="OV-chipkaart_Hibernate_Achraf" value="4e12b601-c8da-434c-95c9-3e8b0000381e" />
           <factory-entry name="OvchipPersistanceManagement" />
         </datasource-mapping>
         <naming-strategy-map />
