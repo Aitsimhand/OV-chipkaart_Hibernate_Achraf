@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReizigerDAOHibernate implements ReizigerDAO {
@@ -18,88 +19,44 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public boolean save(Reiziger reiziger) {
-        try {
-            session.beginTransaction();
-            session.saveOrUpdate(reiziger);
-            session.getTransaction().commit();
-            return true;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reiziger save NOT successful.");
-            return false;
-        }
+        session.beginTransaction();
+        session.saveOrUpdate(reiziger);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override
     public boolean update(Reiziger reiziger) {
-        try {
-            session.beginTransaction();
-            session.update(reiziger);
-            session.getTransaction().commit();
-            System.out.println("Reiziger update successful.");
-            return true;
+        session.beginTransaction();
+        session.update(reiziger);
+        session.getTransaction().commit();
+        System.out.println("Reiziger update successful.");
+        return true;
 
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reizger update NOT successful.");
-            return false;
-        }
     }
 
     @Override
     public boolean delete(Reiziger reiziger) {
-        try {
-            session.beginTransaction();
-            session.delete(reiziger);
-            session.getTransaction().commit();
-            System.out.println("Reiziger delete successful.");
-            return true;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reiziger delete NOT successful.");
-            return false;
-        }
+        session.beginTransaction();
+        session.delete(reiziger);
+        session.getTransaction().commit();
+        System.out.println("Reiziger delete successful.");
+        return true;
     }
 
     @Override
     public Reiziger findById(int id) {
-
-
-        try {
-
-            return session.get(Reiziger.class, id);
-
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reiziger findbyId() was NOT successful.");
-            return null;
-        }
+        return session.get(Reiziger.class, id);
     }
 
     @Override
     public List<Reiziger> findByGbdatum(String datum) {
-        try {
-            session.beginTransaction();
-            Query query = session.createQuery("FROM Reiziger WHERE geboortedatum =" + datum);
-            session.getTransaction().commit();
-            List<Reiziger> reizigers = query.list();
-            System.out.println("Reiziger findbyGbdatum() was successful.");
-            return reizigers;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Reiziger findbyGbdatum() was NOT successful.");
-            return null;
-        }
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Reiziger WHERE geboortedatum =" + datum);
+        session.getTransaction().commit();
+        List<Reiziger> reizigers = query.list();
+        System.out.println("Reiziger findbyGbdatum() was successful.");
+        return reizigers;
     }
 
     @Override

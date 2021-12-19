@@ -30,7 +30,6 @@ public class Product {
         beschrijving = "";
         prijs = 0;
 
-
     }
 
     public void setOVChipkaarten(OVChipkaart ovChipkaart) {
@@ -79,12 +78,14 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "product_nummer=" + product_nummer +
-                ", naam='" + naam + '\'' +
-                ", beshrijving='" + beschrijving + '\'' +
-                ", prijs=" + prijs +
-                ", OVChipkaarten=" + OVChipkaarten +
-                '}';
+        return "Product informatie:" + "\n" +
+                "Product nummer: " +
+                product_nummer +
+                "\nNaam: " + naam +
+                "\nBeschrijving: " +
+                beschrijving + "\nPrijs: " +
+                prijs +
+                "\nGekoppeld aan de volgende oVChipkaarten: " +
+                OVChipkaarten;
+        }
     }
-}

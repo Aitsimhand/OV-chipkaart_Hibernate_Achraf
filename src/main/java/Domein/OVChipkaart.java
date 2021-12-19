@@ -88,7 +88,6 @@ public class OVChipkaart {
         return reiziger.getId();
     }
 
-//TODO!! Still have to make this code return values of other classes if needed. Look at the other
     @Override
     public String toString() {
 

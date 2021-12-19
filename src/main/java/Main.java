@@ -54,6 +54,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws SQLException {
+        testFetchAll();
         testDAOHibernate();
     }
 
@@ -252,6 +253,7 @@ public class Main {
                     System.out.println(product);
                 }
                 System.out.println("Aantal:" + productListNaDelete.size());
+
             }
             catch (SQLException e){
                 System.out.println("Het volgende ging fout:" + "\n");

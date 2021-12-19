@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
@@ -42,18 +43,9 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
 
     @Override
     public OVChipkaart findByReiziger(Reiziger reiziger) {
-        OVChipkaart ovChipkaart = new OVChipkaart();
-        try {
-            ovChipkaart = session.get(OVChipkaart.class, reiziger.getId());
-            System.out.println( "findByReizigerOvchipkaart() was successful");
-            return ovChipkaart;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println( "findByReizigerOvchipkaart() was NOT successful");
-            return null;
-        }
+        OVChipkaart ovChipkaart = session.get(OVChipkaart.class, reiziger.getId());
+        System.out.println( "findByReizigerOvchipkaart() was successful");
+        return ovChipkaart;
     }
 
     @Override
