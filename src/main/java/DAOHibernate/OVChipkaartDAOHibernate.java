@@ -18,45 +18,26 @@ public class OVChipkaartDAOHibernate implements OVChipkaartDAO {
 
     @Override
     public boolean save(OVChipkaart ovChipkaart) {
-        try {
-            session.save(ovChipkaart);
-            System.out.println("OVChipkaart save successful.");
-            return true;
-        }
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Failed to save() ovChipkaart");
-            return false;
-        }
+        session.beginTransaction();
+        session.saveOrUpdate(ovChipkaart);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override
     public boolean update(OVChipkaart ovChipkaart) {
-        try {
-            session.update(ovChipkaart);
-            System.out.println("updateOvchipkaart() was successful");
-            return true;
-        }
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println( "updateOvchipkaart() was NOT successful");
-            return false;
-        }
+       session.beginTransaction();
+       session.saveOrUpdate(ovChipkaart);
+       session.getTransaction().commit();
+       return true;
     }
 
     @Override
     public boolean delete(OVChipkaart ovChipkaart) {
-        try {
-            session.delete(ovChipkaart);
-            System.out.println( "deleteOvchipkaart() was successful");
-            return true;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println( "deleteOvchipkaart() was NOT successful");
-            return false;
-        }
+        session.beginTransaction();
+        session.delete(ovChipkaart);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override

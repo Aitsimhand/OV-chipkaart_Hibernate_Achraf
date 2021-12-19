@@ -12,7 +12,8 @@ public class Adres {
     private String huisnummer;
     private String straat;
     private String woonplaats;
-    @OneToOne
+
+    @OneToOne(cascade = {CascadeType.ALL}, optional = false)
     @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
 
@@ -22,12 +23,13 @@ public class Adres {
     }
 
     public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
-        this.id = id;
+        if (id > 0) this.id = id;
         this.postcode = postcode;
         this.huisnummer = huisnummer;
         this.straat = straat;
         this.woonplaats = woonplaats;
         this.reiziger = reiziger;
+        reiziger.setAdres(this);
     }
 
     public String getPostcode() {

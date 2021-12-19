@@ -16,12 +16,12 @@ public class AdresDAOHibernate implements AdresDAO {
     public AdresDAOHibernate(Session session) {
         this.session = session;
     }
+
     @Override
     public boolean save(Adres adres){
         session.beginTransaction();
         session.saveOrUpdate(adres);
         session.getTransaction().commit();
-        System.out.println("Adres has been saved successfully");
         return true;
     }
 

@@ -14,10 +14,12 @@ public class OVChipkaart {
     private int klasse;
     private Double saldo;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
-    @ManyToMany(mappedBy = "OVChipkaarten")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "ov_chipkaart_product", joinColumns = {@JoinColumn(name = "kaart_nummer")}, inverseJoinColumns = {@JoinColumn(name = "product_nummer")}
+    )
     private List<Product> products = new ArrayList<>();
 
 

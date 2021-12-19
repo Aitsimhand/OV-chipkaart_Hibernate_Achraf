@@ -7,6 +7,8 @@ import DAOHibernate.OVChipkaartDAOHibernate;
 import DAOHibernate.ProductDAOHibernate;
 import DAOHibernate.ReizigerDAOHibernate;
 import Domein.Adres;
+import Domein.OVChipkaart;
+import Domein.Product;
 import Domein.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -110,11 +112,11 @@ public class Main {
             reiziger.setAchternaam("Aitsimhand!!!!");
             reizigerDAOHibernate.update(reiziger);
 
-            System.out.println("Reizger na de de update()" + "\n" + reizigerDAOHibernate.findById(reiziger.getId()).toString());
+            System.out.println("Reiziger na de de update()" + "\n" + reizigerDAOHibernate.findById(reiziger.getId()).toString());
             //Delete
             reizigerDAOHibernate.delete(reiziger);
 
-
+            System.out.println("\n------------- Test AdresDAO ----------------");
             //AdresDAOHibernate
             //Read
             System.out.println("<------------------------VOOR de adres.save()------------------->\n");
@@ -136,17 +138,125 @@ public class Main {
             for (Adres adres : adresListNaUpdate) {
                 System.out.println(adres);
             }
+            System.out.println("Aantal:" + adresListNaUpdate.size());
 
+
+            //Delete
             System.out.println("<------------------------NA de adres.delete()------------------->\n");
             adresDAOHibernate.delete(adresAchraf);
             List<Adres> adresListNaDelete = adresDAOHibernate.findAll();
             for (Adres adres: adresListNaDelete) {
                 System.out.println(adres);
             }
+            System.out.println("Aantal:" + adresListNaDelete.size());
+
+            System.out.println("\n------------- Test OvchipkaartDAO -----------------");
+            //Read
+            System.out.println("<------------------------Voor de Ovhipkaart.save() ------------------->\n");
+            List<OVChipkaart> ovChipkaartList = OVChipkaartHibernate.findAll();
+            for (OVChipkaart ovChipkaart: ovChipkaartList){
+                System.out.println(ovChipkaart);
+            }
+            System.out.println("Aantal:" + ovChipkaartList.size());
+            //Create
+            Reiziger reizigerOvchip = new Reiziger(95,"A", "", "Ait Si M'hand", Date.valueOf("1997-10-24"));
+            OVChipkaart testOvchip = new OVChipkaart(79627, Date.valueOf("2023-10-24"), 2, 100.00, reizigerOvchip );
+
+            OVChipkaartHibernate.save(testOvchip);
+
+            System.out.println("<------------------------Na de Ovhipkaart.save() ------------------->\n");
+            List<OVChipkaart> ovChipkaartListNaSave = OVChipkaartHibernate.findAll();
+            for (OVChipkaart ovChipkaart: ovChipkaartListNaSave){
+                System.out.println(ovChipkaart);
+
+            }
+            System.out.println("Aantal:" + ovChipkaartListNaSave.size());
+
+            //Update
+            System.out.println("<------------------------Na de Ovhipkaart.update() ------------------->\n");
+            testOvchip.setKlasse(1);
+            OVChipkaartHibernate.update(testOvchip);
+            List<OVChipkaart> ovChipkaartListNaUpdate = OVChipkaartHibernate.findAll();
+            for (OVChipkaart ovChipkaart: ovChipkaartListNaUpdate){
+                System.out.println(ovChipkaart);
+            }
+            System.out.println("Aantal:"+ ovChipkaartListNaUpdate.size());
 
 
+            System.out.println("<------------------------Na de Ovhipkaart.delete() ------------------->\n");
+            //Delete
+            OVChipkaartHibernate.delete(testOvchip);
+            List<OVChipkaart> ovChipkaartListNaDelete = OVChipkaartHibernate.findAll();
+            for (OVChipkaart ovChipkaart: ovChipkaartListNaDelete){
+                System.out.println(ovChipkaart);
 
+            }
+            System.out.println("Aantal:" + ovChipkaartListNaDelete.size());
+            reizigerDAOHibernate.delete(reizigerOvchip);
 
+            System.out.println("\n------------- Test productDAO -----------------");
+
+            //Read
+            System.out.println("<------------------------VOOR de product.save() ------------------->\n");
+            try {
+                List<Product> productList = productDAOHibernate.findAll();
+                for (Product product: productList){
+                    System.out.println(product);
+                }
+                System.out.println("Aantal:" + productList.size());
+            }
+            catch (SQLException e){
+                System.out.println("Het volgende ging fout:" + "\n");
+                e.printStackTrace();
+            }
+            //Create
+            System.out.println("<------------------------Na de product.save() ------------------->\n");
+            Product testProduct = new Product(10, "Senioren pas", "kortingsproduct om senioren meer mobiliteit te geven", 10.00 );
+            productDAOHibernate.save(testProduct);
+
+            try {
+                List<Product> productListNaSave = productDAOHibernate.findAll();
+                for (Product product: productListNaSave){
+                    System.out.println(product);
+                }
+                System.out.println("Aantal:" + productListNaSave.size());
+            }
+            catch (SQLException e){
+                System.out.println("Het volgende ging fout:" + "\n");
+                e.printStackTrace();
+            }
+
+            //Update
+
+            testProduct.setPrijs(50.00);
+            productDAOHibernate.update(testProduct);
+
+            try {
+                List<Product> productListNaUpdate = productDAOHibernate.findAll();
+                for (Product product: productListNaUpdate){
+                    System.out.println(product);
+                }
+                System.out.println("Aantal:" + productListNaUpdate.size());
+            }
+            catch (SQLException e){
+                System.out.println("Het volgende ging fout:" + "\n");
+                e.printStackTrace();
+            }
+
+            //Delete
+
+            productDAOHibernate.delete(testProduct);
+            try {
+                List<Product> productListNaDelete = productDAOHibernate.findAll();
+                for (Product product: productListNaDelete){
+                    System.out.println(product);
+                }
+                System.out.println("Aantal:" + productListNaDelete.size());
+            }
+            catch (SQLException e){
+                System.out.println("Het volgende ging fout:" + "\n");
+                e.printStackTrace();
+            }
 
 
 

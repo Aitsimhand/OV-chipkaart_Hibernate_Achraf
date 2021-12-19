@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductDAOHibernate implements ProductDAO {
@@ -18,57 +19,35 @@ public class ProductDAOHibernate implements ProductDAO {
 
     @Override
     public boolean save(Product product) {
-        try {
-            session.save(product);
-            System.out.println("Product save NOT successful.");
-            return true;
-        }
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Product save successful.");
-            return false;
-        }
+        session.beginTransaction();
+        session.saveOrUpdate(product);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override
     public boolean update(Product product) {
-        try {
-            session.update(product);
-            System.out.println("Product update successful.");
-            return true;
-        }
-
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Product update NOT successful.");
-            return false;
-        }
-
+        session.beginTransaction();
+        session.saveOrUpdate(product);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override
     public boolean delete(Product product) {
-        try {
-            session.delete(product);
-            System.out.println("Product delete successful.");
-            return true;
-        }
-        catch (HibernateException e){
-            e.printStackTrace();
-            System.out.println("Product delete NOT successful.");
-            return false;
-        }
+        session.beginTransaction();
+        session.delete(product);
+        session.getTransaction().commit();
+        return true;
     }
 
     @Override
-    public List<Product> findByOVChipkaart(OVChipkaart ov) throws HibernateException{
-        Query<Product> query = session.createQuery("FROM Product WHERE OVChipkaart.kaart_nummer=" + ov.getKaart_nummer() );
-        return query.list();
+    public List<Product> findByOVChipkaart(OVChipkaart ov){
+        return session.createQuery("FROM Product WHERE OVChipkaart.kaart_nummer=" + ov.getKaart_nummer(), Product.class).getResultList();
     }
 
     @Override
-    public List<Product> findAll() throws HibernateException {
-        Query<Product> query = session.createQuery("FROM Product", Product.class);
-        return query.list();
+    public List<Product> findAll() {
+        return session.createQuery("SELECT p FROM Product p", Product.class).getResultList();
     }
 }
